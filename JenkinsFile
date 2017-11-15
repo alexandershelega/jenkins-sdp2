@@ -1,14 +1,17 @@
-podTemplate(label: mypod, containers: [containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true)], volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')
-	]) {
+podTemplate(label: 'mypod', containers: [
+    containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'golang', image: 'golang:1.8.0', ttyEnabled: true, command: 'cat')
+  ]) {
+
     node('mypod') {
-        stage('checkout') {
-            git url: 'https://github.com/alexandershelega/jenkins-sdp2.git', credentialsId: '860e5e82-b53e-4595-a22f-9db9e05a0640'
-            }
-            container('docker') {
-                stage('Build Dockerfile') {
-                    sh "docker build --network=host  -f dockerfile.test"
+        stage('Get a Maven project') {
+            git 'https://github.com/jenkinsci/kubernetes-plugin.git'
+            container('maven') {
+                stage('Build a Maven project') {
+                    sh 'mvn -B clean install'
                 }
             }
         }
 
+    }
 }
