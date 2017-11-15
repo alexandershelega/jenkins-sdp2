@@ -2,7 +2,7 @@ podTemplate(label: mypod, containers: [containerTemplate(name: 'docker', image: 
 	]) {
     node('mypod') {
         stage('checkout') {
-            git url: 'https://github.com/alexandershelega/jenkins-sdp2.git', credentialsId: 'a85736fd-a8d3-4686-9e6a-bc9fe9585767'
+            git url: 'https://github.com/alexandershelega/jenkins-sdp2.git', credentialsId: '860e5e82-b53e-4595-a22f-9db9e05a0640'
             }
             container('docker') {
                 stage('Build Dockerfile') {
