@@ -6,7 +6,7 @@ podTemplate(label: 'mypod', containers: [containerTemplate(image: 'docker', name
             }
             container('docker') {
                 stage('Build Dockerfile') {
-                    sh "echo test"
+                    sh "echo test1"
                     sh "docker build --network=host --rm -t docker_test -f dockerfile.test ."
                 }
             }
