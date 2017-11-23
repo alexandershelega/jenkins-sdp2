@@ -1,6 +1,6 @@
 properties([
         [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
-                [$class: 'hudson.model.BooleanParameterDefinition', name: 'create_deployment', defaultValue: true, description: 'Build docker images with :latest tag?'],
+                [$class: 'hudson.model.BooleanParameterDefinition', name: 'create_deployment', defaultValue: false, description: 'Build docker images with :latest tag?'],
         ]
     ]
 ])
