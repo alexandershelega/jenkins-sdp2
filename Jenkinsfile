@@ -18,7 +18,7 @@ podTemplate(label: 'mypod' ,containers: [
                 stage('check kubectl') {
                     sh "kubectl get po"
                     sh "echo $BRANCH_NAME ;  echo $BUILD_NUMBER"
-                    sh "sed -i "s/TTT/\$BRANCH_NAME/g" svc.yaml"
+                    sh sed -i "s/TTT/\$BRANCH_NAME/g" svc.yaml
                     sh "cat svc.yaml"    
                 }
             }
