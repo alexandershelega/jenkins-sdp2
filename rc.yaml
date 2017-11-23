@@ -6,7 +6,7 @@ kind: ReplicationController
 metadata:
   name: TTT
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     role: TTT
   template:
