@@ -1,6 +1,6 @@
 properties([
         [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
-                [$class: 'hudson.model.BooleanParameterDefinition', name: 'create_deployment', defaultValue: false, description: 'Create Deployment, if FALSE image will updated'],
+                [$class: 'hudson.model.BooleanParameterDefinition', name: 'create_deployment', defaultValue: false, description: 'Create Deployment, if FALSE only image will updated'],
         ]
     ]
 ])
