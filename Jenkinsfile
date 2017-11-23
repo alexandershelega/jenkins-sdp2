@@ -27,10 +27,12 @@ podTemplate(label: 'mypod' ,containers: [
                     sh "echo $BRANCH_NAME ;  echo $BUILD_NUMBER"
    
                 }          
-            stage("update image") {
+            stage("create deployment") {
                    if (params.create_deployment == true ) {
                        sh "sed -i \"s/TTT/nginx-$BRANCH_NAME/g\" svc.yaml"
-                       sh "sed -i \"s/TTT/nginx-$BRANCH_NAME/g\" rc.yaml"                          
+                       sh "sed -i \"s/TTT/nginx-$BRANCH_NAME/g\" rc.yaml" 
+                       sh "kubectl create -f svc.yaml"
+                       sh "kubectl create -f rc.yaml"    
                        sh "kubectl get deployments"
                    } else {
                        sh "kubectl get deployments --namespace=monitoring"
