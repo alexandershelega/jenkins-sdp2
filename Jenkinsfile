@@ -11,7 +11,7 @@ podTemplate(label: 'mypod' ,containers: [
             container('docker') {
                 stage('Build Dockerfile') {
                     sh "echo test2"
-                    sh "docker build --network=host --rm -t docker_test -f dockerfile.test ."
+                    sh "docker build --network=host --rm -t docker_test:$BRANCH_NAME-v$BUILD_NUMBER -f dockerfile.test ."
                 }
             }
             container('kubectl') {
