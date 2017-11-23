@@ -1,13 +1,11 @@
 properties([
         [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
-                [$class: 'hudson.model.BooleanParameterDefinition', name: 'update_image', defaultValue: false, description: 'Build docker images with :latest tag?'],
-                [$class: 'hudson.model.StringParameterDefinition', name: 'tag', defaultValue: 'latest', description: 'Please set tag, or image will build with latest tag'],
+                [$class: 'hudson.model.BooleanParameterDefinition', name: 'create_deployment', defaultValue: true, description: 'Build docker images with :latest tag?'],
         ]
     ]
 ])
 
-def tag = params.tag ? params.tag : 'latest' 
-def update_image = params.update_image ? params.update_image : 'false'
+def update_image = params.create_deployment ? params.create_deployment : false
 
 podTemplate(label: 'mypod' ,containers: [
         containerTemplate(image: 'docker', name: 'docker', command: 'cat', ttyEnabled: true),
@@ -26,16 +24,15 @@ podTemplate(label: 'mypod' ,containers: [
             }
             container('kubectl') {
                 stage('check kubectl') {
-                    sh "kubectl get po"
                     sh "echo $BRANCH_NAME ;  echo $BUILD_NUMBER"
                     sh "sed -i \"s/TTT/$BRANCH_NAME/g\" svc.yaml"
                     sh "cat svc.yaml"   
                 }          
             stage("update image") {
-                   if (params.update_image == true ) {
+                   if (params.create_deployment == true ) {
                        sh "kubectl get deployments"
                    } else {
-                       echo "exitting"
+                       sh "kubectl get deployments --namespace=monitoring"
                    }                     
                 }
             }
