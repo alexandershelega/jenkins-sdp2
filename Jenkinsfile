@@ -1,6 +1,5 @@
 properties([
         [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
-                [$class: 'hudson.model.ChoiceParameterDefinition', name: 'component', choices: 'all\ncrashlytics\nevent-receiver\nrequests', defaultValue: 'component', description: 'Which component you want to build?'],
                 [$class: 'hudson.model.BooleanParameterDefinition', name: 'update_image', defaultValue: false, description: 'Build docker images with :latest tag?'],
                 [$class: 'hudson.model.StringParameterDefinition', name: 'tag', defaultValue: 'latest', description: 'Please set tag, or image will build with latest tag'],
         ]
@@ -32,8 +31,8 @@ podTemplate(label: 'mypod' ,containers: [
                     sh "sed -i \"s/TTT/$BRANCH_NAME/g\" svc.yaml"
                     sh "cat svc.yaml"   
                 }          
-            stage("check environment") {
-                   if (params.update_image != 'false') {
+            stage("update image") {
+                   if (params.update_image == true ) {
                        sh "kubectl get deployments"
                    } else {
                        echo "exitting"
