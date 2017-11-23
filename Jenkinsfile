@@ -1,6 +1,6 @@
 properties([
         [$class: 'ParametersDefinitionProperty', parameterDefinitions: [
-                [$class: 'hudson.model.BooleanParameterDefinition', name: 'create_deployment', defaultValue: false, description: 'Build docker images with :latest tag?'],
+                [$class: 'hudson.model.BooleanParameterDefinition', name: 'create_deployment', defaultValue: false, description: 'Create Deployment, if FALSE image will updated'],
         ]
     ]
 ])
@@ -25,11 +25,12 @@ podTemplate(label: 'mypod' ,containers: [
             container('kubectl') {
                 stage('check kubectl') {
                     sh "echo $BRANCH_NAME ;  echo $BUILD_NUMBER"
-                    sh "sed -i \"s/TTT/$BRANCH_NAME/g\" svc.yaml"
-                    sh "cat svc.yaml"   
+   
                 }          
             stage("update image") {
                    if (params.create_deployment == true ) {
+                       sh "sed -i \"s/TTT/dev-$BRANCH_NAME/g\" svc.yaml"
+                       sh "cat svc.yaml"                           
                        sh "kubectl get deployments"
                    } else {
                        sh "kubectl get deployments --namespace=monitoring"
