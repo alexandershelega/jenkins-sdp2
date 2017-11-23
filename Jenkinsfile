@@ -17,7 +17,7 @@ podTemplate(label: 'mypod' ,containers: [
             container('kubectl') {
                 stage('check kubectl') {
                     sh "kubectl get po"
-                    sh "echo $GIT_BRANCH ;  echo $BUILD_NUMBER"
+                    sh "echo $BRANCH_NAME ;  echo $BUILD_NUMBER"
                 }
             }
 
