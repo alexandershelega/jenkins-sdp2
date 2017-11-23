@@ -29,8 +29,8 @@ podTemplate(label: 'mypod' ,containers: [
                 }          
             stage("update image") {
                    if (params.create_deployment == true ) {
-                       sh "sed -i \"s/TTT/dev-$BRANCH_NAME/g\" svc.yaml"
-                       sh "cat svc.yaml"                           
+                       sh "sed -i \"s/TTT/nginx-$BRANCH_NAME/g\" svc.yaml"
+                       sh "sed -i \"s/TTT/nginx-$BRANCH_NAME/g\" rc.yaml"                          
                        sh "kubectl get deployments"
                    } else {
                        sh "kubectl get deployments --namespace=monitoring"
