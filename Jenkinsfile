@@ -1,4 +1,8 @@
-podTemplate(label: 'mypod', containers: [containerTemplate(image: 'docker', name: 'docker', command: 'cat', ttyEnabled: true)],
+
+podTemplate(label: 'mypod' ,containers: [
+        containerTemplate(image: 'docker', name: 'docker', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'kubectl', image: 'harbor.picsart.tools/analytics/kubectl:latest', ttyEnabled: true, command: 'cat')],
+        imagePullSecrets: [ 'harbor' ],    
         volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]) {
     node('mypod') {
         stage('checkout') {
@@ -6,9 +10,16 @@ podTemplate(label: 'mypod', containers: [containerTemplate(image: 'docker', name
             }
             container('docker') {
                 stage('Build Dockerfile') {
-                    sh "echo test"
+                    sh "echo test2"
                     sh "docker build --network=host --rm -t docker_test -f dockerfile.test ."
                 }
             }
+            container('kubectl') {
+                stage('check kubectl') {
+                    sh "kubectl get po"
+                    sh "echo $GIT_BRANCH ;  echo $BUILD_NUMBER"
+                }
+            }
+
         }
 }
