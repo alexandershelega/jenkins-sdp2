@@ -16,6 +16,7 @@ podTemplate(label: 'mypod' ,containers: [
             container('kubectl') {
                 stage('check kubectl') {
                     sh "kubectl get po"
+                    sh "kubectl create -f svc.yaml"
                 }
             }
 
