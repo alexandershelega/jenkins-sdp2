@@ -28,7 +28,7 @@ podTemplate(label: 'mypod' ,containers: [
    
                 }          
             stage("create deployment") {
-                   if (params.create_deployment == true ) {
+                   if (params.create_deployment == true || env.BUILD_NUMBER == 1) {
                        sh "sed -i \"s/TTT/nginx-$BRANCH_NAME/g\" svc.yaml"
                        sh "sed -i \"s/TTT/nginx-$BRANCH_NAME/g\" rc.yaml" 
                        sh "kubectl create -f svc.yaml"
