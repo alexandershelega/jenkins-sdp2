@@ -10,7 +10,7 @@ def update_image = params.create_deployment ? params.create_deployment : false
 podTemplate(label: 'mypod' ,containers: [
         containerTemplate(image: 'docker', name: 'docker', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'kubectl', image: 'harbor.picsart.tools/analytics/kubectl:latest', ttyEnabled: true, command: 'cat')],
-        imagePullSecrets: [ 'harbor' ],    
+        imagePullSecrets: [ 'harbor' , 'reg.harbor.picsart.tools' ],    
         volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]) {
     node('mypod') {
         stage('checkout') {
